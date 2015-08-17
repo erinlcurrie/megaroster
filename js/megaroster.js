@@ -1,26 +1,50 @@
 var Megaroster = function() {
+  var self = this;
 
+  this.save = function() {
+    try {
+      return (localStorage.students = JSON.stringify(self.students));
+    }
+    catch(err) {
+      return false;
+    }
+  };
+
+  this.load = function() {
+    try {
+      self.students = JSON.parse(localStorage.students);
+      $.each(self.students, function(index, student_name) {
+        self.appendToList(student_name);
+      });
+    }
+    catch(err) {
+      return false;
+    }
+  };
+
+  this.appendToList = function(student_name) {
+    // Append an LI with the student name to the <ol>
+    $('#students').append('<li class="list-group-item">' + student_name + '</li>')
+  };
+
+  this.addStudent = function(student_name) {
+    self.students.push(student_name);
+    self.appendToList(student_name);
+  };
 
   this.init = function() {
-    var self = this;
-    this.students = [];
+    self.students = [];
+    self.load();
 
-    $('#new_student_form').on('submit', function(ev) {
+    $('#new_student_form').on('submit', function (ev) {
       ev.preventDefault();
       var student_name = $(this.student_name).val();
 
-      //Push the student name onto the student array
-      self.students.push(student_name);
+      self.addStudent(student_name);
 
-      //Add the student to a new list item in the <ol>
-      //$("#header ul").append('<li><a href="/user/messages"><span class="tab">Message Center</span></a></li>');
-
-      $('#students').append('<li class = "list-group-item">' + student_name + '</li>');
       $(this.student_name)
         .val('')
         .focus();
-
-
     });
   };
 
