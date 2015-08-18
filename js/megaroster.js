@@ -3,7 +3,7 @@ var Megaroster = function() {
 
   this.save = function() {
     try {
-      return (localStorage.students = JSON.stringify(self.students));
+      return (localStorage.students = JSON.stringify(self.students)   );
     }
     catch(err) {
       return false;
@@ -23,8 +23,14 @@ var Megaroster = function() {
   };
 
   this.appendToList = function(student_name) {
-    // Append an LI with the student name to the <ol>
-    $('#students').append('<li class="list-group-item">' + student_name + '</li>')
+    // Grab the *template* list item from the page.
+    var li = $('#list_item_template').clone();
+    li.removeAttr('id')
+      .addClass('student')
+      .prepend(student_name)
+      .removeClass('hidden');
+
+    $('#students').append(li);
   };
 
   this.addStudent = function(student_name) {
@@ -35,6 +41,14 @@ var Megaroster = function() {
   this.init = function() {
     self.students = [];
     self.load();
+
+    $('button.delete').on('click', function() {
+      //Remove it from the array
+      // WAIT UNTIL TMR
+      //Remove it from the <ol>
+      $(this).closest('li').remove();
+      //Update local storage
+    });
 
     $('#new_student_form').on('submit', function (ev) {
       ev.preventDefault();
@@ -47,6 +61,7 @@ var Megaroster = function() {
         .focus();
     });
   };
+
 
 };
 
