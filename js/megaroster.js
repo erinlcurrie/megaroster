@@ -61,6 +61,11 @@ var Megaroster = function() {
     label.addClass('hidden');
     li.find('.btn-group').addClass('hidden');
     li.append(edit_form);
+
+    edit_form.find('input[name=student_name]')
+      .val(label.text())
+      .focus()
+      .select();
   };
 
   this.removeEditForm = function(ev) {
@@ -77,12 +82,15 @@ var Megaroster = function() {
 
   this.updateStudent = function(ev) {
     ev.preventDefault();
+    var form = this;
 
-    var id = $(this).closest('li').attr('data-id;');
+    var id = $(this).closest('li').attr('data-id');
     var student = Student.getStudentById(id);
     student.name = this.student_name.value;
 
-    self.removeEditForm.apply(this);
+    $(form).siblings('label').text(student.name);
+
+    self.removeEditForm.apply(form);
     self.save();
   };
 

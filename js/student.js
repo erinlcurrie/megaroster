@@ -13,7 +13,6 @@ var Student = function() {
     if (id > Student.counter) {
       Student.counter = id;
     }
-
   };
 
   self.init = function (properties) {
@@ -28,7 +27,7 @@ var Student = function() {
       .addClass('student')
       .removeClass('hidden');
 
-    li.find('label').append(self.name)
+    li.find('label').append(self.name);
 
     $('#students').append(li);
   };
@@ -37,7 +36,7 @@ var Student = function() {
 Student.getStudentById = function(id) {
   var student;
   $.each(roster.students, function(index, current_student) {
-    if (current_student.id.toString() === id.toString) {
+    if (current_student.id.toString() === id.toString()) {
       student = current_student;
       return false;
     }
